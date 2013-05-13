@@ -1,0 +1,514 @@
+#VRML V2.0 utf8
+
+PROTO XorO [
+exposedField SFVec3f trans 0 0 0 
+exposedField SFVec3f trans1 0 0 0
+eventIn	SFBool state 
+eventOut SFTime turn
+eventIn SFInt32 whoseturn
+eventIn SFTime touch
+
+]{
+DEF changePiece Switch {
+whichChoice	0
+choice [
+
+Transform {
+
+translation	IS trans1
+scale 1 1 1
+children [
+DEF ts1 TouchSensor	{touchTime IS turn
+enabled IS state }
+Shape {
+geometry Cylinder {
+radius .57
+height .46
+}
+appearance Appearance {
+material Material {
+transparency 0
+diffuseColor 0.3 0.3 .3}
+}
+}
+]}
+
+#creates a string X and O
+Transform {
+translation	IS trans
+scale .4 .4 .4
+children [Shape {
+geometry Text {
+fontStyle FontStyle {
+justify "MIDDLE"
+
+}
+string "X"
+}
+appearance Appearance {
+material Material {
+diffuseColor 1 1 1}
+}
+}
+]}
+Transform {
+translation	IS trans
+scale .4 .4 .4
+children [
+Shape {
+geometry Text {
+fontStyle FontStyle {
+justify "MIDDLE"
+}
+string "O"}
+appearance Appearance {
+material Material {
+diffuseColor 1 1 1}
+}
+}
+]
+}
+]}	   
+
+
+
+
+
+#choose player 1 or 2
+DEF change Script {
+#	eventIn	SFTime touch IS touch	
+eventOut SFTime turn IS turn
+eventOut SFInt32 whichChoice 
+
+eventIn SFInt32	whoseturn IS whoseturn
+url"javascript:
+function whoseturn(num){
+//touch = turn;
+
+//whoseturn += 1;
+	if(num == 0){whichChoice = 0;}
+if(num == 1){whichChoice = 1;}
+if(num == 2){whichChoice = 2;}
+if(num == 3){num = 1;}
+}	
+
+"}
+#ROUTE ts1.touchTime	TO change.touch
+ROUTE change.whichChoice	TO changePiece.whichChoice
+
+
+
+}
+Transform {
+translation	2.5 .5 0
+rotation 1 0 0 1.57
+children [
+DEF ts1 TouchSensor	{}
+DEF	words Transform	{
+	rotation 1 0 0 -1.57
+	translation	-.17 .2 .05
+	scale .1 .1 .1
+	children [
+Shape {
+	geometry Text {
+		string "RESET"
+	}
+}
+]
+}
+Shape {
+geometry Sphere {
+	radius 0.2
+
+}
+appearance Appearance {
+material Material {
+diffuseColor .2 .2 .2}}}]}
+DEF	win Switch {
+whichChoice	0
+choice [
+Transform {}
+Transform {
+translation	-1 .1 0
+children [
+Shape {
+geometry Box {
+size .02 1.4 .01}	 
+}
+]
+}
+Transform {
+translation	0 .1 0
+children [
+Shape {
+geometry Box {
+size .02 1.4 .01}	 
+
+}
+]
+}
+Transform {
+translation	1 .1 0
+children [
+Shape {
+geometry Box {
+size .02 1.4 .01}	 
+}
+]
+}
+Transform {
+translation	0 .6 0
+children [
+Shape {
+geometry Box {
+size 2.9 .02 .01}	 
+}
+]
+}
+Transform {
+translation	0 .1 0
+children [
+Shape {
+geometry Box {
+size 2.9 .02  .01}	 
+}
+]
+}
+Transform {
+translation	0 -.4 0
+children [
+Shape {
+geometry Box {
+size 2.9 .02 .01}	 
+}
+]
+}
+Transform {
+translation	0 .1 0
+rotation 0 0 1 .45
+children [
+Shape {
+geometry Box {
+size 2.9 .02 .01}
+appearance Appearance {
+material Material {
+diffuseColor 0 0 .8}}
+}
+]
+}
+Transform {
+translation	0 .1 0
+rotation 0 0 -1 .45
+children [
+Shape {
+geometry Box {
+size 2.9 .02 .01}
+appearance Appearance {
+material Material {
+diffuseColor 1 1 .8}}
+}
+]
+}]
+}
+DEF xoro Switch	{
+whichChoice	0
+choice [
+Transform {}
+Transform {
+translation	-.45 1 0
+scale .3 .3 .3
+children [
+Shape {
+geometry Text {
+string "X Wins"
+}
+}
+
+]
+}
+Transform {
+translation	-.45 1 0
+scale .3 .3 .3
+children [
+Shape {
+geometry Text {
+string "O Wins"
+}
+}
+]
+}
+]
+}
+DEF globalchange Script{
+eventIn	SFTime touch
+eventIn SFTime in1
+eventIn SFTime in2
+eventIn SFTime in3
+eventIn SFTime in4
+eventIn SFTime in5
+eventIn SFTime in6
+eventIn SFTime in7
+eventIn SFTime in8
+eventIn SFTime in9
+eventOut SFInt32 out1
+eventOut SFInt32 out2
+eventOut SFInt32 out3
+eventOut SFInt32 out4
+eventOut SFInt32 out5
+eventOut SFInt32 out6
+eventOut SFInt32 out7
+eventOut SFInt32 out8
+eventOut SFInt32 out9
+eventOut SFTime	Return
+field SFInt32 plus 1
+field SFString match1 ""
+field SFString match2 ""
+field SFString match3 ""
+field SFString match4 ""
+field SFString match5 ""
+field SFString match6 ""
+field SFString match7 ""
+field SFString match8 ""
+field SFString match9 ""
+eventOut SFInt32 whowon
+eventOut SFBool disable
+eventOut SFInt32 xoro
+eventIn SFTime reset
+
+
+
+url	"javascript:
+function reset(value){
+disable = TRUE;
+xoro = 0;
+whowon = 0;
+match1 = '';
+match2 = '';
+match3 = '';
+match4 = '';
+match5 = '';
+match6 = '';
+match7 = '';
+match8 = '';
+match9 = '';
+plus = 1;
+out1 = 0;
+out2 = 0;
+out3 = 0;
+out4 = 0;
+out5 = 0;
+out6 = 0;
+out7 = 0;
+out8 = 0;
+out9 = 0;
+}
+
+
+function touch(value){
+plus += 1;
+if(match1 + match2 + match3 == 'xxx'){whowon = 4;disable = FALSE;xoro = 1;}
+if(match4 + match5 + match6 == 'xxx'){whowon = 5;disable = FALSE;xoro = 1;}
+if(match7 + match8 + match9 == 'xxx'){whowon = 6;disable = FALSE;xoro = 1;}
+if(match1 + match4 + match7 == 'xxx'){whowon = 1;disable = FALSE;xoro = 1;}
+if(match2 + match5 + match8 == 'xxx'){whowon = 2;disable = FALSE;xoro = 1;}
+if(match3 + match6 + match9 == 'xxx'){whowon = 3;disable = FALSE;xoro = 1;}
+if(match1 + match5 + match9 == 'xxx'){whowon = 8;disable = FALSE;xoro = 1;}
+if(match3 + match5 + match7 == 'xxx'){whowon = 7;disable = FALSE;xoro = 1;}
+if(match1 + match2 + match3 == 'ooo'){whowon = 4;disable = FALSE;xoro = 2;}
+if(match4 + match5 + match6 == 'ooo'){whowon = 5;disable = FALSE;xoro = 2;}
+if(match7 + match8 + match9 == 'ooo'){whowon = 6;disable = FALSE;xoro = 2;}
+if(match1 + match4 + match7 == 'ooo'){whowon = 1;disable = FALSE;xoro = 2;}
+if(match2 + match5 + match8 == 'ooo'){whowon = 2;disable = FALSE;xoro = 2;}
+if(match3 + match6 + match9 == 'ooo'){whowon = 3;disable = FALSE;xoro = 2;}
+if(match1 + match5 + match9 == 'ooo'){whowon = 8;disable = FALSE;xoro = 2;}
+if(match3 + match5 + match7 == 'ooo'){whowon = 7;disable = FALSE;xoro = 2;}
+}
+function in1(value){
+
+out1 = plus;
+if(out1 == 1){match1 = 'x';}
+if(out1 == 2){match1 = 'o';}
+
+if(plus == 2){plus = 0;}
+}
+function in2(value){
+
+out2 = plus;
+if(out2 == 1){match2 = 'x';}
+if(out2 == 2){match2 = 'o';}
+
+
+if(plus == 2){plus = 0;}
+}
+function in3(value){
+
+out3 = plus;
+if(out3 == 1){match3 = 'x';}
+if(out3 == 2){match3 = 'o';}
+
+
+if(plus == 2 ){plus = 0;}
+}
+function in4(value){
+
+
+out4 = plus;
+if(out4 == 1){match4 = 'x';}
+if(out4 == 2){match4 = 'o';}
+
+
+if(plus == 2){plus = 0;}
+}
+function in5(value){
+
+
+out5 = plus;
+if(out5 == 1){match5 = 'x';}
+if(out5 == 2){match5 = 'o';}
+
+
+if(plus == 2){plus = 0;}
+}
+function in6(value){
+
+
+out6 = plus;
+if(out6 == 1){match6 = 'x';}
+if(out6 == 2){match6 = 'o';}
+
+
+if(plus == 2){plus = 0;}
+}
+function in7(value){
+
+
+out7 = plus;
+if(out7 == 1){match7 = 'x';}
+if(out7 == 2){match7= 'o';}
+
+
+if(plus == 2){plus = 0;}
+}
+function in8(value){
+
+
+out8 = plus;
+if(out8 == 1){match8 = 'x';}
+if(out8 == 2){match8 = 'o';}
+
+
+if(plus == 2){plus = 0;}
+}
+function in9(value){
+
+
+out9 = plus;
+if(out9 == 1){match9 = 'x';}
+if(out9 == 2){match9 = 'o';}
+
+
+if(plus == 2){plus = 0;}
+}
+
+
+"
+} 
+PROTO lines [field SFRotation rot 0 0 0 0
+field SFVec3f size 0 0 0 
+field SFVec3f trans1 0 0 0 
+field SFVec3f trans2 0 0 0 ]
+{Transform {
+translation IS trans1
+children [Shape {
+geometry Box {
+size IS size }
+appearance Appearance {
+material Material {
+diffuseColor 0 0 .8}}}
+]}
+Transform {
+translation IS trans2
+children [Shape {
+geometry Box {
+size IS size }
+appearance Appearance {
+material Material {
+diffuseColor 0 0 .8}}}
+]}}
+
+
+#draw lines
+lines {size .05 1.4 0 trans1 -.5 .1 0 trans2 .5 .1 0}
+lines {rot 0 0 1 1.57 size 2.9 .05 0 trans1 0 .35 0 trans2 0 -.15 0 }
+DEF UL XorO {trans -1 .5 0 trans1 -1 .6 0}
+DEF UM XorO {trans 0 .5 0 trans1 0 .6 0}
+DEF UR XorO {trans 1 .5 0 trans1 1 .6  0}
+DEF ML XorO {trans -1 0 0 trans1 -1 .1  0}
+DEF MM XorO {trans 0 0 0 trans1 0 .1  0}
+DEF MR XorO {trans 1 0 0 trans1 1 .1  0}
+DEF LL XorO {trans -1 -.5 0 trans1 -1 -.4  0}
+DEF LM XorO {trans 0 -.5 0 trans1 0 -.4  0}
+DEF LR XorO {trans 1 -.5 0 trans1 1 -.4  0}
+DEF back Transform {
+translation	0 .1 -.01
+
+
+
+children [
+Shape {
+geometry Box {
+size 2.9 1.4 0}
+appearance Appearance {
+material Material {
+diffuseColor 1 1 .6}}
+}
+Sound { source DEF MySound AudioClip {
+					   loop	 TRUE
+                url "mb.wav"
+			startTime 0}
+
+			}
+
+]
+}
+
+ROUTE UL.turn TO globalchange.touch
+ROUTE UM.turn TO globalchange.touch
+ROUTE UR.turn TO globalchange.touch
+ROUTE ML.turn TO globalchange.touch
+ROUTE MM.turn TO globalchange.touch
+ROUTE MR.turn TO globalchange.touch
+ROUTE LL.turn TO globalchange.touch
+ROUTE LM.turn TO globalchange.touch
+ROUTE LR.turn TO globalchange.touch
+ROUTE globalchange.disable TO UL.state
+ROUTE globalchange.disable TO UM.state
+ROUTE globalchange.disable TO UR.state
+ROUTE globalchange.disable TO ML.state
+ROUTE globalchange.disable TO MM.state
+ROUTE globalchange.disable TO MR.state
+ROUTE globalchange.disable TO LL.state
+ROUTE globalchange.disable TO LM.state
+ROUTE globalchange.disable TO LR.state
+ROUTE globalchange.xoro	TO xoro.whichChoice
+ROUTE ts1.touchTime	TO globalchange.reset
+ROUTE UL.turn TO globalchange.in1
+ROUTE globalchange.out1 TO UL.whoseturn
+#ROUTE globalchange.Return TO UL.touch
+ROUTE UM.turn TO globalchange.in2
+ROUTE globalchange.out2 TO UM.whoseturn
+ROUTE UR.turn TO globalchange.in3
+ROUTE globalchange.out3 TO UR.whoseturn
+ROUTE ML.turn TO globalchange.in4
+ROUTE globalchange.out4 TO ML.whoseturn
+ROUTE MM.turn TO globalchange.in5
+ROUTE globalchange.out5 TO MM.whoseturn
+ROUTE MR.turn TO globalchange.in6
+ROUTE globalchange.out6 TO MR.whoseturn
+ROUTE LL.turn TO globalchange.in7
+ROUTE globalchange.out7 TO LL.whoseturn
+ROUTE LM.turn TO globalchange.in8
+ROUTE globalchange.out8 TO LM.whoseturn
+ROUTE LR.turn TO globalchange.in9
+ROUTE globalchange.out9 TO LR.whoseturn
+ROUTE globalchange.whowon TO win.whichChoice
